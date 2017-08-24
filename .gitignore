@@ -10,6 +10,3 @@ MaxCore.max
 *.iws
 out
 java.hprof.txt
-
-#忽略IDEA自动生成文件
-.iml
