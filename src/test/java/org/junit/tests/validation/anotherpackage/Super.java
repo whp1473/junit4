@@ -7,3 +7,4 @@ class Super {
     public void a() {
     }
 }
+                                                  
