@@ -121,7 +121,7 @@ public class LifeCycleTest
 
 上述代码运行后打印结果如下：
 
-`
+```
 <<Before Class>>
 <<Person Constructor>>
 <<Before>>
@@ -132,7 +132,7 @@ Test Method 1.
 Test Method 2.
 <<After>>
 <<After Class>>
-`
+```
 
 @BeforeClass：修饰static的方法，在整个类执行之前执行该方法一次。比如你的测试用例执行前需要一些高开销的资源（连接数据库）可以用@BeforeClass搞定。值得注意的是如果测试用例类的父类中也存在@BeforeClass修饰的方法，它将在子类的@BeforeClass之前执行。
 @AfterClass：同样修饰static的方法，在整个类执行结束前执行一次。如果你用@BeforeClass创建了一些资源现在是时候释放它们了。
@@ -156,7 +156,7 @@ public class TestSuitMain
 在执行TestSuitMain --> “Run As JUnit Test"的时候会把ComplexFunctionTest和SimpleFunctionTest的用例全部执行一遍。
 Parameterized：Parameterized继承自Suit，从这个身世和名字应该可以猜到一些因果了。Parameterized是在参数上实现了Suit——修饰一个测试类，但是可以提供多组构造函数的参数用于测试不同场景。略微有点抽象，用代码说话：
 
-```
+```java
 @RunWith(Parameterized.class)
 public class TestGenerateParams
 {
@@ -192,12 +192,13 @@ public class TestGenerateParams
 ```
 
 输出结果：
-`
+
+```
 hello
 hi
 good morning
 how are you
-`
+```
 
 在这个用例里，我们首先需要用@RunWith(Parameterized.class)来修饰我们的测试类；接下来提供一组参数，还记得JUnit的生命周期吗？在每次运行测试方法的时候都会调用Constructor来创建一个实例，这里参数就是通过Constructor的参数传入的。因此如你所见我们需要一个含有参数的构造函数用于接收参数，这个参数需要用于跑测试用例所以把它保存做类的变量；然后用@Parameters修饰我们提供参数的静态方法，它需要返回List<Object[]>，List包含的是参数组，Object[]即按顺序提供的一组参数。
 Category：Category同样继承自Suit，Category似乎是Suit的加强版，它和Suit一样提供了将若干测试用例类组织成一组的能力，除此以外它可以对各个测试用例进行分组，使你有机会只选择需要的部分用例。举个例子Person有获取age和name的方法也有talk和walk方法，前者用于获取属性后者是Person的行为，Category使我们可以只运行属性测试，反之亦然。
@@ -291,12 +292,13 @@ public class TheoriesTest
 ```
 
 上面的例子打印结果如下：
-`
+
+```
 Tony's age is 10
 Tony's age is 20
 Jim's age is 10
 Jim's age is 20
-`
+```
 
 同样使用@DataPoints可以获得一样的效果：
 
@@ -334,9 +336,7 @@ public class NameSupplier extends ParameterSupplier
 	}
 
 };
-```
 
-```java
 public class AgeSupplier extends ParameterSupplier
 {
 	@Override
