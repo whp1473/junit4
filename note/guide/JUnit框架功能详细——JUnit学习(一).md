@@ -117,7 +117,7 @@ public class LifeCycleTest
 		System.out.println("Test Method 2.");
 	}
 }
-```java
+```
 
 上述代码运行后打印结果如下：
 
