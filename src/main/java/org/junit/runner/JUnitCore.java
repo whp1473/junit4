@@ -129,6 +129,7 @@ public class JUnitCore {
      * Do not use. Testing purposes only.
      */
     public Result run(Runner runner) {
+        //行为模式，保存方法处理的结果
         Result result = new Result();
         RunListener listener = result.createListener();
         notifier.addFirstListener(listener);

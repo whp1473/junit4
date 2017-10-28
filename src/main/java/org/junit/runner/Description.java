@@ -14,6 +14,8 @@ import java.util.regex.Pattern;
  * can be atomic (a single test) or compound (containing children tests). <code>Descriptions</code> are used
  * to provide feedback about the tests that are about to run (for example, the tree view
  * visible in many IDEs) or tests that have been run (for example, the failures view).
+ * <code>Description</code>描述了测试时或者运行时的状态,包含原子性(一个测试)或者复合型(包含孩子测试).
+ * <code>Descriptions</code>提供有关运行的测试反馈(例如，树形师徒中的许多IDE)或者测试的运行反馈(例如，错误试图)
  * <p>
  * <code>Descriptions</code> are implemented as a single class rather than a Composite because
  * they are entirely informational. They contain no logic aside from counting their tests.

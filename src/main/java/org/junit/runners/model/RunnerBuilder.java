@@ -41,6 +41,7 @@ public abstract class RunnerBuilder {
 
     /**
      * Override to calculate the correct runner for a test class at runtime.
+     * 重写该方法，为了在运行时获得合适的Runner.
      *
      * @param testClass class to be run
      * @return a Runner

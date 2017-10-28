@@ -36,10 +36,15 @@ public class Result implements Serializable {
     private SerializedForm serializedForm;
 
     public Result() {
+        //数量
         count = new AtomicInteger();
+        //忽略数量
         ignoreCount = new AtomicInteger();
+        //错误
         failures = new CopyOnWriteArrayList<Failure>();
+        //运行时间
         runTime = new AtomicLong();
+        //开始时间
         startTime = new AtomicLong();
     }
 
@@ -117,21 +122,25 @@ public class Result implements Serializable {
         @Override
         public void testRunFinished(Result result) throws Exception {
             long endTime = System.currentTimeMillis();
+            //添加给定值当前的值
             runTime.addAndGet(endTime - startTime.get());
         }
 
         @Override
         public void testFinished(Description description) throws Exception {
+            //+1
             count.getAndIncrement();
         }
 
         @Override
         public void testFailure(Failure failure) throws Exception {
+            //添加错误信息
             failures.add(failure);
         }
 
         @Override
         public void testIgnored(Description description) throws Exception {
+            //+1
             ignoreCount.getAndIncrement();
         }
 

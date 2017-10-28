@@ -28,6 +28,7 @@ public abstract class Runner implements Describable {
 
     /**
      * Run the tests for this runner.
+     * 运行Runner测试.
      *
      * @param notifier will be notified of events while tests are being run--tests being
      * started, finishing, and failing
@@ -36,6 +37,7 @@ public abstract class Runner implements Describable {
 
     /**
      * @return the number of tests to be run by the receiver
+     * 接收方运行测试的数量.
      */
     public int testCount() {
         return getDescription().testCount();

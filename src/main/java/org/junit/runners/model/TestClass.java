@@ -25,6 +25,7 @@ import org.junit.internal.MethodSorter;
 
 /**
  * Wraps a class to be run, providing method validation and annotation searching
+ * 包装一个运行类，提供方法验证和注解搜索.
  *
  * @since 4.5
  */

@@ -90,6 +90,11 @@ public class AnnotatedBuilder extends RunnerBuilder {
         return null;
     }
 
+    /**
+     * 获得
+     * @param currentTestClass 测试类
+     * @return 返回外部类声明
+     */
     private Class<?> getEnclosingClassForNonStaticMemberClass(Class<?> currentTestClass) {
         if (currentTestClass.isMemberClass() && !Modifier.isStatic(currentTestClass.getModifiers())) {
             return currentTestClass.getEnclosingClass();
@@ -101,6 +106,7 @@ public class AnnotatedBuilder extends RunnerBuilder {
     public Runner buildRunner(Class<? extends Runner> runnerClass,
             Class<?> testClass) throws Exception {
         try {
+            //[注释]创建了Runner实例，其入参为Class<?>，testClass是被执行的单元测试类
             return runnerClass.getConstructor(Class.class).newInstance(testClass);
         } catch (NoSuchMethodException e) {
             try {

@@ -19,6 +19,7 @@ import org.junit.runner.Result;
  * @since 4.0
  */
 public class RunNotifier {
+    //线程安全List
     private final List<RunListener> listeners = new CopyOnWriteArrayList<RunListener>();
     private volatile boolean pleaseStop = false;
 
@@ -47,6 +48,8 @@ public class RunNotifier {
      * it is not annotated with {@link RunListener.ThreadSafe}.
      */
     RunListener wrapIfNotThreadSafe(RunListener listener) {
+        //如果一个注解指定注释类型是存在于此元素上此方法返回true，否则返回false
+        //注解为线程安全，则直接使用该监听，若不为线程安全则封装方法，使用synchronized进行方法同步
         return listener.getClass().isAnnotationPresent(RunListener.ThreadSafe.class) ?
                 listener : new SynchronizedRunListener(listener, this);
     }
@@ -85,6 +88,7 @@ public class RunNotifier {
      * Do not invoke.
      */
     public void fireTestRunStarted(final Description description) {
+        //模板方法，定义算法骨架，重写实现.
         new SafeNotifier() {
             @Override
             protected void notifyListener(RunListener each) throws Exception {

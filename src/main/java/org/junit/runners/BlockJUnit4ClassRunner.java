@@ -36,22 +36,30 @@ import org.junit.runners.model.Statement;
  * annotations in the org.junit package. Many users will never notice this
  * class: it is now the default test class runner, but it should have exactly
  * the same behavior as the old test class runner ({@code JUnit4ClassRunner}).
+ * 在org.junit包中按照注解实现Junit4标准的测试用例类模型.
+ * 大多数用户从不会注意到该类:
+ * 因为它现在是默认的测试类Runner，但是应该会有一个同样行为的老测试Runner.
  * <p>
  * BlockJUnit4ClassRunner has advantages for writers of custom JUnit runners
  * that are slight changes to the default behavior, however:
- *
+ * BlockJUnit4ClassRunner可以用来作为自定义JUnit Runners的抽象类
+ * 只需要重写该类的一些默认行为，比如：
  * <ul>
  * <li>It has a much simpler implementation based on {@link Statement}s,
  * allowing new operations to be inserted into the appropriate point in the
  * execution flow.
+ * 它有许多简单基于{@link Statement}s的实现，可以将新的操作插入到运行流程合适的地方.
  *
  * <li>It is published, and extension and reuse are encouraged, whereas {@code
  * JUnit4ClassRunner} was in an internal package, and is now deprecated.
+ * 运行对它发布、扩展、修改，鉴于{@code JUnit4ClassRunner}是一个内部封装，现在已经废弃.
  * </ul>
  * <p>
  * In turn, in 2009 we introduced {@link Rule}s.  In many cases where extending
  * BlockJUnit4ClassRunner was necessary to add new behavior, {@link Rule}s can
  * be used, which makes the extension more reusable and composable.
+ * 相应的，再2009年我们介绍过{@link Rule}s. 在许多情况下可以扩展BlockJUnit4ClassRunner新的行为,
+ * {@link Rule}能被用来扩展和定义更多的内容.
  *
  * @since 4.5
  */
@@ -61,6 +69,7 @@ public class BlockJUnit4ClassRunner extends ParentRunner<FrameworkMethod> {
 
     /**
      * Creates a BlockJUnit4ClassRunner to run {@code testClass}
+     * 创建一个BlockJUnit4ClassRunner用来执行{@code testClass}
      *
      * @throws InitializationError if the test class is malformed.
      */

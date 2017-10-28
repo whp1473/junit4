@@ -26,7 +26,10 @@ public class AllDefaultPossibilitiesBuilder extends RunnerBuilder {
 
     @Override
     public Runner runnerForClass(Class<?> testClass) throws Throwable {
+        //建造者模式中的指挥者.
+        //指挥者本身也是建设者.
         List<RunnerBuilder> builders = Arrays.asList(
+                //@ignored注解的类或方法将不会被执行
                 ignoredBuilder(),
                 annotatedBuilder(),
                 suiteMethodBuilder(),

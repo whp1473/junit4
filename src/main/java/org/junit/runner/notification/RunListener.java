@@ -17,6 +17,7 @@ import org.junit.runner.Result;
  * <p>
  * For example, suppose you have a <code>Cowbell</code>
  * class that you want to make a noise whenever a test fails. You could write:
+ * ????????????????????????????????????????
  * <pre>
  * public class RingingListener extends RunListener {
  *    public void testFailure(Failure failure) {
@@ -26,6 +27,7 @@ import org.junit.runner.Result;
  * </pre>
  * <p>
  * To invoke your listener, you need to run your tests through <code>JUnitCore</code>.
+ * ??????????JunitCore?????????:
  * <pre>
  * public void main(String... args) {
  *    JUnitCore core= new JUnitCore();
@@ -37,14 +39,20 @@ import org.junit.runner.Result;
  * If a listener throws an exception for a test event, the other listeners will
  * have their {@link RunListener#testFailure(Failure)} called with a {@code Description}
  * of {@link Description#TEST_MECHANISM} to indicate the failure.
+ * ?????????????????????????{@link RunListener#testFailure(Failure)}??
+ * ????{@link Description#TEST_MECHANISM}?{@code Description}???????.
  * <p>
  * By default, JUnit will synchronize calls to your listener. If your listener
  * is thread-safe and you want to allow JUnit to call your listener from
  * multiple threads when tests are run in parallel, you can annotate your
  * test class with {@link RunListener.ThreadSafe}.
+ * ??????Junit???????.???????Junit???????????????
+ * ????{@link RunListener.ThreadSafe}.
  * <p>
  * Listener methods will be called from the same thread as is running
  * the test, unless otherwise indicated by the method Javadoc
+ * ?????????????????????????Javadoc?????.
+ *
  *
  * @see org.junit.runner.JUnitCore
  * @since 4.0

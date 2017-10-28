@@ -44,6 +44,7 @@ public class FrameworkMethod extends FrameworkMember<FrameworkMethod> {
      */
     public Object invokeExplosively(final Object target, final Object... params)
             throws Throwable {
+        //重写被执行方法，再执行用run执行该方法,模板方法.大量应用该模式.
         return new ReflectiveCallable() {
             @Override
             protected Object runReflectiveCall() throws Throwable {
