@@ -8,7 +8,7 @@ import junit.textui.ResultPrinter;
 import junit.textui.TestRunner;
 
 /**
- * Test invoking a single test method of a TestCase.
+ * Tests invoking a single test method of a TestCase.
  */
 public class TextRunnerSingleMethodTest extends TestCase {
 

@@ -42,6 +42,10 @@ public class TestClass implements Annotatable {
      * constructor executes, the class is scanned for annotations, which can be
      * an expensive process (we hope in future JDK's it will not be.) Therefore,
      * try to share instances of {@code TestClass} where possible.
+     * 创建一个{@code TestClass}用来包装{@code clazz}.
+     * 每次在扫描注释时，这个构造函数执行，代价比较高昂（所以我们希望未来的JDK不会这样）.
+     * 所以我们试着共享一个{@code TestClass}实例.
+     * 这里其实就是管理了每种注解管理的字段、方法.
      */
     public TestClass(Class<?> clazz) {
         this.clazz = clazz;
@@ -62,6 +66,7 @@ public class TestClass implements Annotatable {
     }
 
     protected void scanAnnotatedMembers(Map<Class<? extends Annotation>, List<FrameworkMethod>> methodsForAnnotations, Map<Class<? extends Annotation>, List<FrameworkField>> fieldsForAnnotations) {
+        //返回父类和子类的集合
         for (Class<?> eachClass : getSuperClasses(clazz)) {
             for (Method eachMethod : MethodSorter.getDeclaredMethods(eachClass)) {
                 addToAnnotationLists(new FrameworkMethod(eachMethod), methodsForAnnotations);

@@ -300,7 +300,7 @@ public class TimeoutTest {
         JUnitCore core = new JUnitCore();
         Result result = core.run(TimeOutZero.class);
         assertEquals("Should run the test", 1, result.getRunCount());
-        assertEquals("Test should not have failed", 0, result.getFailureCount());
+        assertEquals("Tests should not have failed", 0, result.getFailureCount());
     }
 
     private static class TimeoutSubclass extends Timeout {
@@ -329,6 +329,6 @@ public class TimeoutTest {
         JUnitCore core = new JUnitCore();
         Result result = core.run(TimeOutOneSecond.class);
         assertEquals("Should run the test", 1, result.getRunCount());
-        assertEquals("Test should not have failed", 0, result.getFailureCount());
+        assertEquals("Tests should not have failed", 0, result.getFailureCount());
     }
 }

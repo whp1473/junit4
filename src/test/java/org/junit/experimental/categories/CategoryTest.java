@@ -351,7 +351,7 @@ public class CategoryTest {
         @Category(MultiB.class)
         public void b() {
             fail("When multiple categories are included in a Suite, " +
-                    "@Test method must match all include categories");
+                    "@Tests method must match all include categories");
         }
     }
 
@@ -379,7 +379,7 @@ public class CategoryTest {
         @Category({ MultiA.class, MultiB.class, MultiC.class })
         public void b() {
             fail("When multiple categories are included and excluded in a Suite, " +
-                    "@Test method must match all include categories and contain non of the excluded");
+                    "@Tests method must match all include categories and contain non of the excluded");
         }
     }
 

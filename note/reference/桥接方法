@@ -1,0 +1,247 @@
+ Java中的Bridge方法
+
+今天在Java中字节码的格式的时候，发现method_info中的access_flags中竟然定了ACC_BRIDGE的值。网上搜了一下，大概理解它的意思了，先记之。
+
+
+首先是在什么情况下会生成bridge方法（2）：
+
+bridge method may be created by the compiler when extending a parameterized type whose methods have parameterized arguments.
+
+这是在网上找到的有人贴出来的一段话，但是感觉这段话说的并不是很明白。首先bridge方式是由编译器产生的，因而在源代码中也没有bridge的关键字。然后只有在以具体类型继承自一个泛型类，同时被继承的泛型类包含了泛型方法。比如看以下的例子：
+
+abstract class A<T> {
+    public abstract T method1(T arg);
+    public abstract T method2();
+}
+
+class B extends A<String> {
+    public String method1(String arg) {
+       return arg;
+    }
+    public String method2() {
+       return "abc";
+    }
+}
+
+class C<T> extends A<T> {
+    public T method1(T arg) {
+       return arg;
+    }
+
+    public T method2() {
+       return null;
+    }
+}
+
+
+
+
+
+他们生成的.class文件如下：
+
+A.class
+
+abstract class org.levin.insidejvm.miscs.bridgemethod.A {
+
+ public abstract java.lang.Object method1(java.lang.Object arg0);
+
+ public abstract java.lang.Object method2();
+
+}
+
+B.class
+
+class org.levin.insidejvm.miscs.bridgemethod.B extends org.levin.insidejvm.miscs.bridgemethod.A {
+
+ public java.lang.String method1(java.lang.String arg);
+
+    0 aload_1 [arg]
+
+    1 areturn
+
+ public java.lang.String method2();
+
+    0 ldc <String "abc"> [20]
+
+    2 areturn
+
+ public bridge synthetic java.lang.Object method2();
+
+    0 aload_0 [this]
+
+    1 invokevirtual org.levin.insidejvm.miscs.bridgemethod.B.method2() : java.lang.String [23]
+
+    4 areturn
+
+  public bridge synthetic java.lang.Object method1(java.lang.Object arg0);
+
+    0 aload_0 [this]
+
+    1 aload_1 [arg0]
+
+    2 checkcast java.lang.String [26]
+
+    5 invokevirtual org.levin.insidejvm.miscs.bridgemethod.B.method1(java.lang.String) : java.lang.String [28]
+
+    8 areturn
+
+}
+
+C.class
+
+class org.levin.insidejvm.miscs.bridgemethod.C extends org.levin.insidejvm.miscs.bridgemethod.A {
+
+  public java.lang.Object method1(java.lang.Object arg);
+
+    0 aload_1 [arg]
+
+    1 areturn
+
+ public java.lang.Object method2();
+
+    0 aconst_null
+
+    1 areturn
+
+}
+
+可以看到B中生成了两个bridge方法，而C中则没有。事实上，由于Java中泛型有擦除的机制，因而在编译A类的时候，它里面定义的方法都是以Object类型来表示了，因而如果没有bridge方法，B类根本没有覆盖A类中的abstract方法。正因为有bridge方法的存在，才使得B类可以编译通过。而C类由于在编译时所有的泛型也都是通过Object类来表达的，因而它实现的也是A类中的abstract方法，因而不用再生成bridge方法了。
+
+
+
+事实上B类中的bridge方法在调用也有一些区别：
+
+    public static void main(String[] args) {
+       B b = new B();
+       b.method1("abc");
+       A<String> a = new B();
+       a.method1("abc");
+    }
+
+
+
+这段方法的字节码如下：
+
+     0 new org.levin.insidejvm.miscs.bridgemethod.B [16]
+
+     3 dup
+
+     4 invokespecial org.levin.insidejvm.miscs.bridgemethod.B() [18]
+
+     7 astore_1 [b]
+
+     8 aload_1 [b]
+
+     9 ldc <String "abc"> [19]
+
+    11 invokevirtual org.levin.insidejvm.miscs.bridgemethod.B.method1(java.lang.String) : java.lang.String [21]
+
+    14 pop
+
+    15 new org.levin.insidejvm.miscs.bridgemethod.B [16]
+
+    18 dup
+
+    19 invokespecial org.levin.insidejvm.miscs.bridgemethod.B() [18]
+
+    22 astore_2 [a]
+
+    23 aload_2 [a]
+
+    24 ldc <String "abc"> [19]
+
+    26 invokevirtual org.levin.insidejvm.miscs.bridgemethod.A.method1(java.lang.Object) : java.lang.Object [25]
+
+    29 pop
+
+    30 return
+
+以上的代码可以看出b变量调用的method1(String)的方法，而a变量调用的却是method1(Object)方法。这种区别也正式因为bridge方法提供的支持才实现的。
+
+
+
+事实上，bridge方法还会在另外一种情况下产生（2）：
+
+在Java 1.4中，子类若要重写父类某个方法，那么子类的方法和父类的方法签名必须完全一致，包括方法名、参数类型以及返回值；而到Java 1.5中，该机制变成，如果子类中某个方法的方法名和参数类型和父类某方法一致，并且子类该方法的返回值是父类相应方法返回值的类型或其子类型，那么该子类方法也可以重写父类中相应的方法。参看以下例子：
+
+class E {
+
+}
+
+class F extends E {
+
+}
+
+class X {
+    public E getE() {
+       return new E();
+    }
+}
+
+class Y extends X {
+    @Override
+    public F getE() {
+       return new F();
+    }
+}
+
+
+
+以上代码是可以编译通过的。让我们再来查看一下Y的字节码：
+
+class org.levin.insidejvm.miscs.bridgemethod.Y extends org.levin.insidejvm.miscs.bridgemethod.X {
+
+  public org.levin.insidejvm.miscs.bridgemethod.F getE();
+
+    0 new org.levin.insidejvm.miscs.bridgemethod.F [16]
+
+    3 dup
+
+    4 invokespecial org.levin.insidejvm.miscs.bridgemethod.F() [18]
+
+    7 areturn
+
+ public bridge synthetic org.levin.insidejvm.miscs.bridgemethod.E getE();
+
+    0 aload_0 [this]
+
+    1 invokevirtual org.levin.insidejvm.miscs.bridgemethod.Y.getE() : org.levin.insidejvm.miscs.bridgemethod.F [20]
+
+    4 areturn
+
+}
+
+从字节码上，我们可以看出语法本身事实上并没有发生变化，变化的只是编译器做的支持，它为重载方法重新生成了一个返回E而不是F的bridge方法。
+
+从调用的字节码上可以更加明显的看出语法没有发生变化这一点：
+
+    public static void main(String[] args) {
+       X x = new Y();
+       x.getE();
+    }
+
+
+
+字节码如下：
+
+ public static void main(java.lang.String[] args);
+
+     0 new org.levin.insidejvm.miscs.bridgemethod.Y [16]
+
+     3 dup
+
+     4 invokespecial org.levin.insidejvm.miscs.bridgemethod.Y() [18]
+
+    7 astore_1 [x]
+
+     8 aload_1 [x]
+
+     9 invokevirtual org.levin.insidejvm.miscs.bridgemethod.X.getE() : org.levin.insidejvm.miscs.bridgemethod.E [19]
+
+    12 pop
+
+13 return
+
+该字节码中x.getE()方法事实上调用的就是生成的bridge方法（E getE()）方法，而不是用户定义的F getE()方法。
+
+这种重载机制在某些，不同子类某个函数的返回值是不一样的，但是他们都需要重写父类中方法，以可以在某个点上通过父类实例统一调用。只是这种机制就需要返回值必须是继承于同一个类。事实上，这种方式在没有引入这种重写机制的时候也是可以实现的，只是现在Java在编译器层面上提供了支持。

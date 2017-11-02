@@ -7,7 +7,7 @@ import junit.framework.TestListener;
 import junit.framework.TestResult;
 
 /**
- * Test class used in SuiteTest
+ * Tests class used in SuiteTest
  */
 public class TestListenerTest extends TestCase implements TestListener {
     private TestResult fResult;

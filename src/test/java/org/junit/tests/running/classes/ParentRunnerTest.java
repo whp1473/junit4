@@ -212,7 +212,7 @@ public class ParentRunnerTest {
 
         @Test
         public void fail() {
-            throw new AssertionError("Thrown from @Test");
+            throw new AssertionError("Thrown from @Tests");
         }
 
         @Ignore
@@ -222,7 +222,7 @@ public class ParentRunnerTest {
         @SuppressWarnings("deprecation")
         @Test
         public void assumptionFail() {
-            throw new AssumptionViolatedException("Thrown from @Test");
+            throw new AssumptionViolatedException("Thrown from @Tests");
         }
     }
 

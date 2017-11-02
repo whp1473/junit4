@@ -10,7 +10,7 @@ import org.junit.runners.model.Statement;
 import java.lang.reflect.Field;
 
 /**
- * Test class for validate run tests that was load in own ClassLoader
+ * Tests class for validate run tests that was load in own ClassLoader
  */
 public class TestWithClassRule {
     public static Class<?> applyTestClass;

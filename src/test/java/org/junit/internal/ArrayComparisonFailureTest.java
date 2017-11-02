@@ -17,7 +17,7 @@ public class ArrayComparisonFailureTest {
     private static final String ARRAY_COMPARISON_FAILURE_412 = "arrayComparisonFailure_412";
 
     /*
-        Test compatibility of older versions of ArrayComparisonFailure
+        Tests compatibility of older versions of ArrayComparisonFailure
         Setup:
         - checkout prior versions of the codebase (r4.11, r4.12 in this case)
         - catch the exception resulting from:

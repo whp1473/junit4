@@ -98,7 +98,7 @@ public class MultipleFailureExceptionTest {
         } catch (MultipleFailureException expected) {
             assertThat(expected.getFailures().size(), equalTo(2));
             assertTrue(expected.getMessage().startsWith("There were 2 errors:" + LINE_SEPARATOR));
-            assertTrue(expected.getMessage().contains("TestCouldNotBeSkippedException(Test could not be skipped"));
+            assertTrue(expected.getMessage().contains("TestCouldNotBeSkippedException(Tests could not be skipped"));
             assertTrue(expected.getMessage().contains("RuntimeException(garlic)"));
             Throwable first = expected.getFailures().get(0);
             assertThat(first, instanceOf(TestCouldNotBeSkippedException.class));

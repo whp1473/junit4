@@ -133,7 +133,7 @@ public class DisableOnDebugTest {
         JUnitCore core = new JUnitCore();
         Result result = core.run(PreJava5DebugArgumentsTest.class);
         assertEquals("Should run the test", 1, result.getRunCount());
-        assertEquals("Test should not have failed", 0, result.getFailureCount());
+        assertEquals("Tests should not have failed", 0, result.getFailureCount());
     }
 
     @Test
@@ -142,7 +142,7 @@ public class DisableOnDebugTest {
         Result result = core
                 .run(PreJava5DebugArgumentsReversedTest.class);
         assertEquals("Should run the test", 1, result.getRunCount());
-        assertEquals("Test should not have failed", 0, result.getFailureCount());
+        assertEquals("Tests should not have failed", 0, result.getFailureCount());
     }
 
     @Test
@@ -150,7 +150,7 @@ public class DisableOnDebugTest {
         JUnitCore core = new JUnitCore();
         Result result = core.run(PostJava5DebugArgumentsTest.class);
         assertEquals("Should run the test", 1, result.getRunCount());
-        assertEquals("Test should not have failed", 0, result.getFailureCount());
+        assertEquals("Tests should not have failed", 0, result.getFailureCount());
     }
 
     @Test
@@ -158,7 +158,7 @@ public class DisableOnDebugTest {
         JUnitCore core = new JUnitCore();
         Result result = core.run(WithoutDebugArgumentsTest.class);
         assertEquals("Should run the test", 1, result.getRunCount());
-        assertEquals("Test should have failed", 1, result.getFailureCount());
+        assertEquals("Tests should have failed", 1, result.getFailureCount());
     }
 
 }

@@ -450,7 +450,7 @@ public class AnnotationTest extends TestCase {
 
         @Test
         public void test() {
-            log += "Test ";
+            log += "Tests ";
         }
     }
 
@@ -458,7 +458,7 @@ public class AnnotationTest extends TestCase {
         log = "";
         JUnitCore core = new JUnitCore();
         core.run(SubInheritance.class);
-        assertEquals("Before class super Before class sub Before super Before sub Test After sub After super After class sub After class super ", log);
+        assertEquals("Before class super Before class sub Before super Before sub Tests After sub After super After class sub After class super ", log);
     }
 
     static public class SuperShadowing {
@@ -529,7 +529,7 @@ public class AnnotationTest extends TestCase {
 
         @Test
         public void test() {
-            log += "Test ";
+            log += "Tests ";
         }
     }
 
@@ -539,7 +539,7 @@ public class AnnotationTest extends TestCase {
         core.run(SubShadowing.class);
         assertEquals(
                 "sub.rule().before() sub.anotherBefore() sub.before() "
-                + "Test "
+                + "Tests "
                 + "sub.anotherAfter() sub.after() sub.rule().after() ",
                 log);
     }
@@ -579,7 +579,7 @@ public class AnnotationTest extends TestCase {
 
         @Test
         public void test() {
-            log += "Test ";
+            log += "Tests ";
         }
 
         @After
@@ -614,7 +614,7 @@ public class AnnotationTest extends TestCase {
         assertThat(testResult, isSuccessful());
         assertEquals(
                 "super.rule().before() super.before() sub.anotherBefore() "
-                + "Test "
+                + "Tests "
                 + "sub.anotherAfter() super.after() super.rule().after() ",
                 log);
     }

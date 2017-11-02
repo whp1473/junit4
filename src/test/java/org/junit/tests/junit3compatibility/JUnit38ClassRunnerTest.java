@@ -145,7 +145,7 @@ public class JUnit38ClassRunnerTest {
     }
 
     /**
-     * Test that NoTestsRemainException is thrown when all methods have been filtered.
+     * Tests that NoTestsRemainException is thrown when all methods have been filtered.
      */
     @Test(expected = NoTestsRemainException.class) 
     public void filterNoTestsRemain() throws NoTestsRemainException {

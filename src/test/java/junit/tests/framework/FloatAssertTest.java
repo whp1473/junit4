@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 public class FloatAssertTest extends TestCase {
 
     /**
-     * Test for the special Double.NaN value.
+     * Tests for the special Double.NaN value.
      */
     public void testAssertEqualsNaNFails() {
         try {

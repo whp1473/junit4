@@ -10,7 +10,7 @@ import org.junit.runners.BlockJUnit4ClassRunner;
  * Created by wanghouping on 2017/10/26.
  * @author houping wang
  */
-@RunWith(MyRun.class)
+@RunWith(BlockJUnit4ClassRunner.class)
 public class BaseTest{
 
 //    public BaseTest() {

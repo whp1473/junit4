@@ -30,7 +30,7 @@ public final class MultiCategoryTest {
      */
     @Test
     public void runSuite() {
-        // Targeting Test:
+        // Targeting Tests:
         Result testResult= JUnitCore.runClasses(MultiCategorySuite.class);
 
         assertThat("unexpected run count", testResult.getRunCount(), is(equalTo(2)));

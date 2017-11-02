@@ -13,7 +13,7 @@ import org.junit.internal.runners.model.ReflectiveCallable;
  * test execution. These methods are usually marked with an annotation (such as
  * {@code @Test}, {@code @Before}, {@code @After}, {@code @BeforeClass},
  * {@code @AfterClass}, etc.)
- *
+ * 描述在测试执行过程中,一个在测试类运行的方法.
  * @since 4.5
  */
 public class FrameworkMethod extends FrameworkMember<FrameworkMethod> {
@@ -63,6 +63,7 @@ public class FrameworkMethod extends FrameworkMember<FrameworkMethod> {
 
     /**
      * Adds to {@code errors} if this method:
+     * 如果这个不符合条件，则添加错误信息到集合中List<Throwable> errors
      * <ul>
      * <li>is not public, or
      * <li>takes parameters, or
@@ -73,6 +74,7 @@ public class FrameworkMethod extends FrameworkMember<FrameworkMethod> {
      */
     public void validatePublicVoidNoArg(boolean isStatic, List<Throwable> errors) {
         validatePublicVoid(isStatic, errors);
+        //判断方法不是无参
         if (method.getParameterTypes().length != 0) {
             errors.add(new Exception("Method " + method.getName() + " should have no parameters"));
         }
@@ -89,13 +91,17 @@ public class FrameworkMethod extends FrameworkMember<FrameworkMethod> {
      * </ul>
      */
     public void validatePublicVoid(boolean isStatic, List<Throwable> errors) {
+        //判断方法不是static
         if (isStatic() != isStatic) {
+            //转化成描述文字
             String state = isStatic ? "should" : "should not";
             errors.add(new Exception("Method " + method.getName() + "() " + state + " be static"));
         }
+        //判断方法不是public
         if (!isPublic()) {
             errors.add(new Exception("Method " + method.getName() + "() should be public"));
         }
+        //判断方法不是void
         if (method.getReturnType() != Void.TYPE) {
             errors.add(new Exception("Method " + method.getName() + "() should be void"));
         }
@@ -123,6 +129,7 @@ public class FrameworkMethod extends FrameworkMember<FrameworkMethod> {
 
     /**
      * Returns the class where the method is actually declared
+     * 返回实际声明该方法的类.
      */
     @Override
     public Class<?> getDeclaringClass() {
@@ -135,12 +142,16 @@ public class FrameworkMethod extends FrameworkMember<FrameworkMethod> {
 
     @Override
     public boolean isShadowedBy(FrameworkMethod other) {
+        //判断方法是否相同
+        //验证名称相同
         if (!other.getName().equals(getName())) {
             return false;
         }
+        //验证入参数量相同
         if (other.getParameterTypes().length != getParameterTypes().length) {
             return false;
         }
+        //验证入参类型相同
         for (int i = 0; i < other.getParameterTypes().length; i++) {
             if (!other.getParameterTypes()[i].equals(getParameterTypes()[i])) {
                 return false;
@@ -156,6 +167,7 @@ public class FrameworkMethod extends FrameworkMember<FrameworkMethod> {
 
     @Override
     public boolean equals(Object obj) {
+        //判断类型是否相同
         if (!FrameworkMethod.class.isInstance(obj)) {
             return false;
         }
@@ -178,6 +190,7 @@ public class FrameworkMethod extends FrameworkMember<FrameworkMethod> {
      */
     @Deprecated
     public boolean producesType(Type type) {
+        //isAssignableFrom 判断类型是否相同，并是否属于接口或超类
         return getParameterTypes().length == 0 && type instanceof Class<?>
                 && ((Class<?>) type).isAssignableFrom(method.getReturnType());
     }
@@ -188,6 +201,7 @@ public class FrameworkMethod extends FrameworkMember<FrameworkMethod> {
 
     /**
      * Returns the annotations on this method
+     * 返回该方法的注解数组
      */
     public Annotation[] getAnnotations() {
         return method.getAnnotations();
@@ -196,6 +210,7 @@ public class FrameworkMethod extends FrameworkMember<FrameworkMethod> {
     /**
      * Returns the annotation of type {@code annotationType} on this method, if
      * one exists.
+     * 如果存在，则返回该方法{@code annotationType}类型的注解
      */
     public <T extends Annotation> T getAnnotation(Class<T> annotationType) {
         return method.getAnnotation(annotationType);

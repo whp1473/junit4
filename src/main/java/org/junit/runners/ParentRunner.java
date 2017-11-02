@@ -123,9 +123,13 @@ public abstract class ParentRunner<T> extends Runner implements Filterable,
      * {@code public static void} with no arguments.
      */
     protected void collectInitializationErrors(List<Throwable> errors) {
+        //验证BeforeClass是Public Void 无参方法
         validatePublicVoidNoArgMethods(BeforeClass.class, true, errors);
+        //验证AfterClass是Public Void 无参方法
         validatePublicVoidNoArgMethods(AfterClass.class, true, errors);
+        //验证Rule注解
         validateClassRules(errors);
+
         applyValidators(errors);
     }
 
